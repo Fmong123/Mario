@@ -3,11 +3,12 @@
 
 #include <SDL.h>
 #include <SDL_image.h>
+#include <SDL_mixer.h>
+#include "ECS.h"
+#include "Component.h"
 #include "defs.h"
 #include "TextureManage.h"
 #include "Map.h"
-#include "ECS.h"
-#include "Component.h"
 #include "Vector2D.h"
     SDL_Texture* playerModel;
     SDL_Rect srcR, destR;
@@ -17,8 +18,6 @@
     Manager manager;
 
     auto& Player = manager.addEntity();
-
-    int cameraX = 0;
 
 
 
@@ -36,6 +35,10 @@ public:
     }
 
 	void init() {
+	    SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO);
+        IMG_Init(IMG_INIT_PNG);
+        Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048);
+
         if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
             logErrorAndExit("SDL_Init", SDL_GetError());
             isRunning = false;
@@ -76,7 +79,8 @@ public:
 
         //SDL_RenderSetScale(renderer, SCALE, SCALE);
 
-        Player.addComponent<TransformComponent>(500, 450, 32,32,2);
+
+        Player.addComponent<TransformComponent>(50, 450, 32,32,2);
         Player.addComponent<ColliderComponent>("Player");
         Player.addComponent<SpriteComponent>("assets/mario.png",renderer);
         Player.addComponent<KeyboardController>();
@@ -84,6 +88,7 @@ public:
 
         Player.addGroup(groupPlayers);
         manager.addToGroup(&Player, groupPlayers);
+
 
 
     }
@@ -116,34 +121,34 @@ public:
         manager.refresh();
         manager.update();
 
-        auto& Transform = Player.getComponent<TransformComponent>();
+        Player.getComponent<KeyboardController>().update(event, cameraX);
 
-        // Tính cameraX sao cho Mario luôn nằm giữa màn hình
-        cameraX = Transform.position.x + Transform.width * Transform.scale / 2 - SCREEN_WIDTH / 2;
-
-        // Giới hạn camera không ra khỏi map
-        int maxCameraX = MAP_WIDTH * TILE_SIZE * SCALE - SCREEN_WIDTH;
-        if (cameraX < 0) cameraX = 0;
-        if (cameraX > maxCameraX) cameraX = maxCameraX;
-
-
-        Player.getComponent<KeyboardController>().update(event);
         Player.getComponent<ColliderComponent>().update();
-        //Collision::checkPlayerCollisions(manager);
         Player.getComponent<TransformComponent>().update();
-        //Player.getComponent<TransformComponent>().position.Add(Vector2D(1,1));
 
-
+        updateCamera();
 
 
         auto* pos = &Player.getComponent<TransformComponent>();
-        cout << (int)pos->position.x << " " << (int)pos->position.y << endl;
+        cout << (int)pos->position.x << " " << (int)pos->position.y << " " << cameraX << endl;
         //cout<< Player.getComponent<TransformComponent>().onGround << endl;
 
     }
 
     void update(float &deltaTime) {
 
+    }
+
+    int getCameraX() const {
+        return cameraX;
+    }
+
+    void setCameraX(int x) {
+        int maxCameraX = MAP_WIDTH * TILE_SIZE * SCALE - SCREEN_WIDTH;
+
+        if (x < 0) cameraX = 0;
+        else if (x > maxCameraX) cameraX = maxCameraX;
+        else cameraX = x;
     }
 
     void quit()
@@ -153,21 +158,49 @@ public:
         SDL_DestroyRenderer(renderer);
         SDL_DestroyWindow(window);
 
-
+        Mix_HaltMusic();
+        Mix_CloseAudio();
+        Mix_Quit();
         SDL_Quit();
     }
 
     bool running() {
         return isRunning;
     }
+
+    Mix_Music* loadMusic(const std::string& path) {
+        Mix_Music* music = Mix_LoadMUS(path.c_str());
+        if (!music) {
+            std::cerr << "Failed to load BGM: " << Mix_GetError() << std::endl;
+        }
+        return music;
+    }
+    void play(Mix_Music* music, int loops) {
+        if (Mix_PlayMusic(music, loops) == -1) {
+            std::cerr << "Failed to play BGM: " << Mix_GetError() << std::endl;
+        }
+    }
 private:
+    int cameraX = 0;
     SDL_Event event;
     SDL_Renderer *renderer;
 	SDL_Window *window;
     bool isRunning;
     int count = 0;
 
+    void updateCamera() {
+        auto& T = Player.getComponent<TransformComponent>();
+        float marioX = T.position.x;
 
+        // Camera đi theo Mario, giữ giữa màn hình
+        int newCameraX = static_cast<int>(marioX - SCREEN_WIDTH / 2);
+
+        // Tính lại maxCameraX theo MAP_WIDTH thực sự
+        int maxCameraX = MAP_WIDTH * TILE_SIZE * SCALE - SCREEN_WIDTH;
+
+        // Clamp camera để không vượt quá bản đồ
+        cameraX = std::clamp(newCameraX, 0, maxCameraX);
+    }
 };
 
 

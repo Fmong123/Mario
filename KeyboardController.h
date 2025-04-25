@@ -5,9 +5,7 @@
 #include "defs.h"
 #include "Component.h"
 #include "ECS.h"
-#include "graphic.h"
-#include "TransformComponent.h"
-#include "PhysicsComponent.h"
+
 
 class PhysicsComponent;
 
@@ -16,6 +14,7 @@ class KeyboardController : public Component
 
 
 public:
+
 
     bool moveLeft = false;
     bool moveRight = false;
@@ -34,7 +33,7 @@ public:
             physics = &entity->getComponent<PhysicsComponent>();
         }
     }
-    void update(SDL_Event& event)
+    void update(SDL_Event& event, int& cameraX)
     {
         if (event.type == SDL_KEYDOWN && event.key.repeat == 0) {
             switch (event.key.keysym.sym) {
@@ -83,15 +82,19 @@ public:
             }
         }
 
+
+
         // Cập nhật velocity.x
-        if (moveLeft) {
-            Transform->velocity.x = run ? -2 : -1;
-        } else if (moveRight) {
-            Transform->velocity.x = run ? 2 : 1;
+        if (Transform) {
+            if (moveLeft) {
+                Transform->velocity.x = run ? -2.0f : -1.0f;
+            } else if (moveRight) {
+                Transform->velocity.x = run ? 2.0f : 1.0f;
+            } else {
+                Transform->velocity.x = 0.0f;
+            }
         }
-        else {
-            Transform->velocity.x = 0;
-        }
+
 
 
         /*if (jump && Transform->onGround) {
@@ -114,4 +117,6 @@ public:
 
 
 };
+
+
 #endif // KEYBOARDCONTROLLER_H_INCLUDED

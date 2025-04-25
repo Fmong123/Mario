@@ -5,6 +5,7 @@
 #include "graphic.h"
 
 Graphics *graphics = nullptr;
+Mix_Music* gMusic = nullptr;
 
 float GetDeltaTime() {
     static Uint32 lastTime = 0;
@@ -23,8 +24,15 @@ int main(int argc, char *argv[])
     Uint32 FrameStart;
     int FrameTime;
 
+    gMusic = graphics->loadMusic("assets/overworld.mp3");
+    if (gMusic) {
+        graphics->play(gMusic, -1);
+    }
+
     while (graphics->running())
     {
+
+
         FrameStart = SDL_GetTicks ();
         float deltaTime = GetDeltaTime();
 
@@ -41,7 +49,7 @@ int main(int argc, char *argv[])
             SDL_Delay (FrameDelay - FrameTime);
         }
     }
-
+   if (gMusic) Mix_FreeMusic(gMusic);
     graphics->quit();
     return 0;
 }

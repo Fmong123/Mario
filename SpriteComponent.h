@@ -7,7 +7,7 @@
 
 class SpriteComponent : public Component {
 public:
-
+    int cameraX = 0;
     TransformComponent *Transform;
     SDL_Texture* texture;
     SDL_Rect srcRect;       // Rect nguồn trong sprite sheet (thường dùng để cắt hình ảnh từ sprite sheet)
@@ -40,7 +40,7 @@ public:
     }
 
     void update() override {
-        destRect.x = static_cast<int>(Transform->position.x);
+        destRect.x = static_cast<int>(Transform->position.x) ;
         destRect.y = static_cast<int>(Transform->position.y);
         destRect.w = Transform->width * Transform->scale;
         destRect.h = Transform->height * Transform->scale;
@@ -48,6 +48,9 @@ public:
     }
     void draw() override {
         TextureManager::Draw(texture, ren, srcRect, destRect);
+    }
+    void setCameraX(int camX) {
+        cameraX = camX;
     }
 };
 

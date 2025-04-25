@@ -19,13 +19,7 @@ public:
     int scale = 1;
 
     int speed = 2;
-
-
-    /*bool onGround;
-    bool jump= false;
-    float gravity = 0.08f;
-    float jumpSpeed = 1.5f;
-    float maxFallSpeed = 4.5f;*/
+    int cameraSpeed = 2;
 
     TransformComponent() {
         position.x = 0.0f;
@@ -56,48 +50,13 @@ public:
     }
     void update() override
     {
-
-
-
-
+        position.x += velocity.x * speed ;
+        position.y += velocity.y * speed ;
     }
-
-    /*void update() override {
-        // Di chuyển trục X
-        position.x += velocity.x * speed;
-
-        // Di chuyển trục Y
-        position.y += velocity.y * speed;
-
-        // Hiệu ứng trọng lực khi Mario không ở trên mặt đất
-        /*velocity.y += gravity;
-
-        if (onGround) {
-            velocity.y = 0; // Ngừng tác động của gravity
-        }
-
-        if (velocity.y > maxFallSpeed) {
-            velocity.y = maxFallSpeed; // Giới hạn tốc độ rơi
-        }
-
-        // Kiểm tra nhảy
-        if (jump) {
-            if (onGround) {
-                velocity.y = -jumpSpeed; // chỉ nhảy khi đang trên đất
-                onGround = false;
-            }
-            jump = false; // reset flag nhảy sau khi xử lý
-        }
-
-        // Giới hạn tốc độ nhảy
-        if (velocity.y < -jumpSpeed) {
-            velocity.y = -jumpSpeed;
-        }
-
-        jump = false; // reset cờ jump
-    }*/
-
-
+    void updateCamera(int& cameraX) {
+        // Cập nhật camera cùng tốc độ của Mario
+        cameraX += static_cast<int>(velocity.x * cameraSpeed);
+    }
 
 };
 
