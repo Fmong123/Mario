@@ -1,6 +1,6 @@
-# Mario
 
-# Typing Attack - Make By SDL2 C++
+
+# Mario 1-1 - Make By SDL2 C++
 <p align="center">
  <strong>Author</strong>: Nguyễn Quốc Phong
 </p>
