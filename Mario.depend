@@ -1,0 +1,122 @@
+# depslib dependency file v1.0
+1743188198 source:c:\users\admin\onedrive\desktop\game\mario\main.cpp
+	<bits/stdc++.h>
+	<SDL.h>
+	<SDL_image.h>
+	"defs.h"
+	"graphic.h"
+
+1743188051 c:\users\admin\onedrive\desktop\game\mario\defs.h
+
+1743446958 c:\users\admin\onedrive\desktop\game\mario\graphic.h
+	<SDL.h>
+	<SDL_image.h>
+	"defs.h"
+	"Player.h"
+
+1743446906 c:\users\admin\onedrive\desktop\game\mario\player.h
+	"graphic.h"
+	"defs.h"
+
+1744909270 source:c:\users\admin\desktop\game\mario\main.cpp
+	<bits/stdc++.h>
+	<SDL.h>
+	<SDL_image.h>
+	"defs.h"
+	"graphic.h"
+
+1745586820 c:\users\admin\desktop\game\mario\defs.h
+
+1745587398 c:\users\admin\desktop\game\mario\graphic.h
+	<SDL.h>
+	<SDL_image.h>
+	"defs.h"
+	"TextureManage.h"
+	"Map.h"
+	"ECS.h"
+	"Component.h"
+	"Vector2D.h"
+
+1743446906 c:\users\admin\desktop\game\mario\player.h
+	"graphic.h"
+	"defs.h"
+
+1744658316 c:\users\admin\desktop\game\mario\texturemanage.h
+	"graphic.h"
+	"defs.h"
+
+1744051390 c:\users\admin\desktop\game\mario\background.h
+	<SDL.h>
+	<SDL_image.h>
+	"defs.h"
+	"graphic.h"
+	<bits/stdc++.h>
+
+1745587755 c:\users\admin\desktop\game\mario\map.h
+	"defs.h"
+	"TextureManage.h"
+	<bits/stdc++.h>
+	"graphic.h"
+	"ECS.h"
+	"Component.h"
+
+1745426880 c:\users\admin\desktop\game\mario\ecs.h
+	<iostream>
+	<vector>
+	<memory>
+	<algorithm>
+	<bitset>
+	<array>
+
+1745429452 c:\users\admin\desktop\game\mario\component.h
+	"ECS.h"
+	"TransformComponent.h"
+	"SpriteComponent.h"
+	"ColliderComponent.h"
+	"Collision.h"
+	"KeyboardController.h"
+	"PhysicsComponent.h"
+
+1744660376 c:\users\admin\desktop\game\mario\positioncomponent.h
+	"Component.h"
+
+1744807145 c:\users\admin\desktop\game\mario\spritecomponent.h
+	"Component.h"
+	<SDL.h>
+	"TextureManage.h"
+
+1745588076 c:\users\admin\desktop\game\mario\transformcomponent.h
+	"Component.h"
+	"Vector2D.h"
+	"defs.h"
+
+1744913654 c:\users\admin\desktop\game\mario\vector2d.h
+	<cmath>
+	<iostream>
+
+1745431826 c:\users\admin\desktop\game\mario\keyboardcontroller.h
+	<SDL.h>
+	"defs.h"
+	"Component.h"
+	"ECS.h"
+	"graphic.h"
+	"TransformComponent.h"
+	"PhysicsComponent.h"
+
+1745426880 c:\users\admin\desktop\game\mario\collidercomponent.h
+	<string>
+	"ECS.h"
+	"Component.h"
+	<SDL.h>
+
+1745351697 c:\users\admin\desktop\game\mario\collision.h
+	"defs.h"
+	"Map.h"
+	"ECS.h"
+	"Component.h"
+	<SDL.h>
+
+1745430792 c:\users\admin\desktop\game\mario\physicscomponent.h
+	"Component.h"
+	"ECS.h"
+
