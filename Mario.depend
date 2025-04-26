@@ -18,7 +18,7 @@
 	"graphic.h"
 	"defs.h"
 
-1745607085 source:c:\users\admin\desktop\game\mario\main.cpp
+1745695260 source:c:\users\admin\desktop\game\mario\main.cpp
 	<bits/stdc++.h>
 	<SDL.h>
 	<SDL_image.h>
@@ -27,7 +27,7 @@
 
 1745641458 c:\users\admin\desktop\game\mario\defs.h
 
-1745694765 c:\users\admin\desktop\game\mario\graphic.h
+1745695310 c:\users\admin\desktop\game\mario\graphic.h
 	<SDL.h>
 	<SDL_image.h>
 	<SDL_mixer.h>

@@ -38,7 +38,7 @@ int main(int argc, char *argv[])
 
         graphics->handleEvent();
         graphics->update();
-        graphics->update(deltaTime);
+        //graphics->update(deltaTime);
 
         graphics->render();
 

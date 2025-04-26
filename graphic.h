@@ -30,11 +30,12 @@ public:
     }
 
 	void init() {
+	    //-------------Init Audio-------------
 	    SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO);
         IMG_Init(IMG_INIT_PNG);
         Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048);
 
-
+        //-------------Init Window-------------
         if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
             logErrorAndExit("SDL_Init", SDL_GetError());
             isRunning = false;
@@ -71,10 +72,10 @@ public:
 
         manager.setRenderer(renderer);
 
+        //-------------Init Map-------------
         mariomap = new Map(renderer, "assets/map/tileset_gutter.png", "assets/map/level1_Graphic Layer.csv" , "assets/map/level1_Background Color.csv", manager);
 
-        //SDL_RenderSetScale(renderer, SCALE, SCALE);
-
+        //-------------Init Mario-------------
         Player = &manager.addEntity();
         Player->addComponent<TransformComponent>(50, 450, 32,32,2);
         Player->addComponent<ColliderComponent>("Player");
@@ -85,6 +86,7 @@ public:
         Player->addGroup(groupPlayers);
         manager.addToGroup(Player, groupPlayers);
 
+        //-------------Init Text-------------
         TTF_Init();
         font = TTF_OpenFont("assets/super-mario-bros-nes.ttf", 24); // font 24px
         if (!font) {
@@ -127,7 +129,6 @@ public:
         // --- Draw UI ---
         SDL_Color textColor = {255, 255, 255, 255};
 
-        // Hàm tiện ích để tạo và vẽ text texture
         auto renderTextTexture = [&](const std::string& text, int x, int y) {
             SDL_Surface* surface = TTF_RenderText_Solid(font, text.c_str(), textColor);
             SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
@@ -137,10 +138,10 @@ public:
             SDL_DestroyTexture(texture);
         };
 
-        renderTextTexture("TIME: " + std::to_string(remainingTime), SCREEN_WIDTH - 200, 20);
+        renderTextTexture("TIME: " + std::to_string(remainingTime), SCREEN_WIDTH - 220, 20);
         renderTextTexture("SCORE: " + std::to_string(score), 20, 20);
 
-
+        //--------Hết Game--------
         if (gameOver) {
             std::string gameOverText = "GAME OVER!";
             int gameOverTextWidth;
@@ -180,8 +181,7 @@ public:
             if (remainingTime <= 0) {
                 remainingTime = 0;
                 gameOver = true;
-                std::cout << "GAME OVER! Final Score: " << score << std::endl;
-                // Không cần đặt lại startTime ở đây, hãy để nó giữ nguyên
+                //std::cout << "GAME OVER! Final Score: " << score << std::endl;
             }
         }
 
@@ -190,11 +190,11 @@ public:
             manager.update();
 
             //---------Mario----------
-            if (Player != nullptr) { // Kiểm tra con trỏ Player có hợp lệ không
+            if (Player != nullptr) {
                 Player->getComponent<KeyboardController>().update(event);
                 Player->getComponent<ColliderComponent>().update();
                 Player->getComponent<TransformComponent>().update();
-                Player->getComponent<PhysicsComponent>().update(); // Thêm update cho PhysicsComponent
+                Player->getComponent<PhysicsComponent>().update();
             }
 
             //---------Coins-----------------
@@ -236,7 +236,7 @@ public:
                     coinEntity->destroy();
                 }
             }
-
+            //----------Spawn Coin----------
             Uint32 currentTime = SDL_GetTicks();
             if (currentTime - lastCoinSpawnTime >= coinSpawnInterval) {
                 auto& currentCoins = manager.getGroup(groupCoins);
@@ -252,13 +252,16 @@ public:
         auto* pos = &Player->getComponent<TransformComponent>();
         //cout << (int)pos->position.x << " " << (int)pos->position.y  << endl;
         //cout<< Player.getComponent<TransformComponent>().onGround << endl;
-
-
-
     }
+    void spawnCoin(int x, int y, SDL_Renderer* renderer, Manager& manager) {
 
-    void update(float &deltaTime) {
+        auto& coin = manager.addEntity();
 
+        coin.addComponent<TransformComponent>(x, y, 16, 16, SCALE);
+        coin.addComponent<SpriteComponent>("assets/img/other_imgs/coin6.png", renderer);
+        coin.addComponent<ColliderComponent>("Coin");
+        coin.addComponent<PhysicsComponent>();
+        coin.addGroup(groupCoins);
     }
 
     void quit()
@@ -332,16 +335,7 @@ public:
             std::cerr << "Failed to play BGM: " << Mix_GetError() << std::endl;
         }
     }
-    void spawnCoin(int x, int y, SDL_Renderer* renderer, Manager& manager) {
 
-        auto& coin = manager.addEntity();
-
-        coin.addComponent<TransformComponent>(x, y, 16, 16, SCALE);
-        coin.addComponent<SpriteComponent>("assets/img/other_imgs/coin6.png", renderer);
-        coin.addComponent<ColliderComponent>("Coin");
-        coin.addComponent<PhysicsComponent>();
-        coin.addGroup(groupCoins);
-    }
 private:
     Map *mariomap;
 
@@ -358,8 +352,8 @@ private:
 
     TTF_Font* font = nullptr;
     int score = 0;
-    int countdownTime = 3; // seconds
-    int remainingTime = 3; // Tgian chạy game
+    int countdownTime = 120; // seconds
+    int remainingTime = 120; // Tgian chạy game
     bool gameOver = false;
 
     Uint32 startTime = 0;
@@ -369,8 +363,8 @@ private:
     int currentCoinCount = 0;   // Số lượng coin spawn mỗi lần
     int maxCoins = 5;
 
-    bool canRestart = false; // Trạng thái cho phép chơi lại
-    SDL_Rect restartButtonRect; // Hình chữ nhật bao quanh nút "Chơi lại"
+    bool canRestart = false; // ResetGame
+    SDL_Rect restartButtonRect; // Nút reset
     SDL_Texture* restartButtonTexture = nullptr;
     SDL_Surface* restartButtonSurface = nullptr;
 };
