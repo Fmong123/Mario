@@ -75,7 +75,7 @@ public:
 
         manager.setRenderer(renderer);
 
-        mariomap = new Map(renderer, "assets/map/tileset_gutter.png", "assets/map/level1._Graphic Layer.csv" , "assets/map/level1._Background Color.csv", manager);
+        mariomap = new Map(renderer, "assets/map/tileset_gutter.png", "assets/map/level1_Graphic Layer.csv" , "assets/map/level1_Background Color.csv", manager);
 
         //SDL_RenderSetScale(renderer, SCALE, SCALE);
 
@@ -133,6 +133,11 @@ public:
         cout << (int)pos->position.x << " " << (int)pos->position.y << " " << cameraX << endl;
         //cout<< Player.getComponent<TransformComponent>().onGround << endl;
 
+        //int maxCameraX = (MAP_WIDTH * TILE_SIZE * SCALE) - SCREEN_WIDTH;
+
+
+        //cameraX = std::clamp(cameraX, 0, maxCameraX);
+
     }
 
     void update(float &deltaTime) {
@@ -188,21 +193,36 @@ private:
     bool isRunning;
     int count = 0;
 
-    void updateCamera() {
+   void updateCamera() {
         auto& T = Player.getComponent<TransformComponent>();
-        float marioX = T.position.x;
+        float marioX = T.position.x;  // Vị trí của Mario
+        float marioVelX = T.velocity.x;  // Tốc độ di chuyển của Mario
 
-        // Camera đi theo Mario, giữ giữa màn hình
-        int newCameraX = static_cast<int>(marioX - SCREEN_WIDTH / 2);
+        // Đảm bảo Mario luôn ở giữa màn hình khi chưa đến giữa
+        if (marioX < SCREEN_WIDTH / 2) {
+            cameraX = 0;  // Nếu Mario chưa tới giữa, camera giữ vị trí ban đầu
+        } else {
+            // Khi Mario đến giữa màn hình, camera sẽ bắt đầu cuộn theo tốc độ của Mario
+            // Giữ Mario ở giữa
+            cameraX = static_cast<int>(marioX - SCREEN_WIDTH / 2);
 
-        // Tính lại maxCameraX theo MAP_WIDTH thực sự
-        int maxCameraX = MAP_WIDTH * TILE_SIZE * SCALE - SCREEN_WIDTH;
+            // Giới hạn camera để không vượt quá bản đồ
+            int maxCameraX = MAP_WIDTH * TILE_SIZE * SCALE - SCREEN_WIDTH;
 
-        // Clamp camera để không vượt quá bản đồ
-        cameraX = std::clamp(newCameraX, 0, maxCameraX);
+            // Giới hạn camera để không vượt qua bản đồ
+            if (cameraX < 0) {
+                cameraX = 0;
+            } else if (cameraX > maxCameraX) {
+                cameraX = maxCameraX;
+            }
+        }
+
+        // Đảm bảo rằng camera di chuyển theo tốc độ của Mario nếu Mario đã đến giữa màn hình
+        if (marioX >= SCREEN_WIDTH / 2) {
+            cameraX += static_cast<int>(marioVelX);  // Camera di chuyển theo tốc độ của Mario
+        }
     }
 };
-
 
 #endif // GRAPHIC_H_INCLUDED
 

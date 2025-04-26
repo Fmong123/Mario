@@ -53,8 +53,8 @@ public:
             SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255); // đỏ
         }
 
-        SDL_RenderDrawRect(renderer, &collider);
-    }*/
+        SDL_RenderDrawRect(renderer, &collider);*/
+    }
 };
 
 #endif // COLLIDERCOMPONENT_H_INCLUDED

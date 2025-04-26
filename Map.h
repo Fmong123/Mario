@@ -78,9 +78,7 @@ private:
     }
 
     void renderLayer(SDL_Renderer* renderer, const vector<vector<int>>& layer, int& cameraX) {
-        int maxCameraX = MAP_WIDTH * TILE_SIZE * SCALE - SCREEN_WIDTH;
-        if (cameraX < 0) cameraX = 0;
-        if (cameraX > maxCameraX) cameraX = maxCameraX;
+
         for (int y = 0; y < MAP_HEIGHT; ++y) {
             for (int x = 0; x < MAP_WIDTH; ++x) {
                 int tileID = layer[y][x];
@@ -97,7 +95,7 @@ private:
                 };
 
                 SDL_Rect destRect = {
-                    x * TILE_SIZE * SCALE - cameraX ,
+                    x * TILE_SIZE * SCALE - cameraX * 3 ,
                     y * TILE_SIZE * SCALE,
                     TILE_SIZE * SCALE,
                     TILE_SIZE * SCALE
