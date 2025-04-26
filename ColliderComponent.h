@@ -43,7 +43,7 @@ public:
         // std::cout << "[Collider] " << tag << ": " << collider.x << "," << collider.y << " (" << collider.w << "x" << collider.h << ")\n";
     }
     void draw() override {
-        /*SDL_Renderer* renderer = entity->getManager().getRenderer();
+        SDL_Renderer* renderer = entity->getManager().getRenderer();
         if (!renderer) return;
 
         // Màu debug: xanh cho Player, đỏ cho block
@@ -53,7 +53,7 @@ public:
             SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255); // đỏ
         }
 
-        SDL_RenderDrawRect(renderer, &collider);*/
+        SDL_RenderDrawRect(renderer, &collider);
     }
 };
 

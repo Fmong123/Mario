@@ -9,7 +9,7 @@ class PhysicsComponent : public Component {
 public:
 
     float gravity = 0.1f;
-    float maxFallSpeed = 2.0f;
+    float maxFallSpeed = 1.5f;
     float jumpSpeed = 2.0f;
 
     bool isGrounded = false;
@@ -101,12 +101,14 @@ public:
         int mapW = MAP_WIDTH * TILE_SIZE * SCALE;
         int mapH = MAP_HEIGHT * TILE_SIZE * SCALE;
 
+        int screenW = SCREEN_WIDTH;
+
         if (Transform->position.x < 0) {
             Transform->position.x = 0;
             Transform->velocity.x = 0;
         }
-        if (Transform->position.x + colliderWidth > mapW) {
-            Transform->position.x = mapW - colliderWidth;
+        if (Transform->position.x + colliderWidth > screenW) {
+            Transform->position.x = screenW - colliderWidth;
             Transform->velocity.x = 0;
         }
 

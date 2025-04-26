@@ -120,7 +120,7 @@ private:
             for (int x = 0; x < MAP_WIDTH; ++x) {
                 int tileID = layer[y][x];
                 if (solidIDs.count(tileID)) {
-                    std::cout << "[Collider] Tile ID " << tileID << " at (" << x << "," << y << ")\n";
+                    //std::cout << "[Collider] Tile ID " << tileID << " at (" << x << "," << y << ")\n";
 
                     auto& tile = manager.addEntity();
                     tile.addComponent<TransformComponent>(

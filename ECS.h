@@ -114,6 +114,8 @@ public:
 	Manager& getManager() {
         return manager;
     }
+
+
 };
 
 class Manager
@@ -178,6 +180,13 @@ public:
 		entities.emplace_back(std::move(uPtr));
 		return *e;
 	}
+
+	void clearAllEntities() {
+        for (auto& entityPtr : entities) {
+            entityPtr->destroy();
+        }
+        refresh();
+    }
 
 	SDL_Renderer* renderer = nullptr;
 

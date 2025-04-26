@@ -33,7 +33,7 @@ public:
             physics = &entity->getComponent<PhysicsComponent>();
         }
     }
-    void update(SDL_Event& event, int& cameraX)
+    void update(SDL_Event& event)
     {
         if (event.type == SDL_KEYDOWN && event.key.repeat == 0) {
             switch (event.key.keysym.sym) {
@@ -87,9 +87,9 @@ public:
         // Cập nhật velocity.x
         if (Transform) {
             if (moveLeft) {
-                Transform->velocity.x = run ? -2.0f : -1.0f;
+                Transform->velocity.x = run ? -1.5f : -1.0f;
             } else if (moveRight) {
-                Transform->velocity.x = run ? 2.0f : 1.0f;
+                Transform->velocity.x = run ? 1.5f : 1.0f;
             } else {
                 Transform->velocity.x = 0.0f;
             }

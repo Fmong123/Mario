@@ -25,12 +25,13 @@
 	"defs.h"
 	"graphic.h"
 
-1745586820 c:\users\admin\desktop\game\mario\defs.h
+1745641458 c:\users\admin\desktop\game\mario\defs.h
 
-1745631050 c:\users\admin\desktop\game\mario\graphic.h
+1745694765 c:\users\admin\desktop\game\mario\graphic.h
 	<SDL.h>
 	<SDL_image.h>
 	<SDL_mixer.h>
+	<SDL_ttf.h>
 	"ECS.h"
 	"Component.h"
 	"defs.h"
@@ -53,7 +54,7 @@
 	"graphic.h"
 	<bits/stdc++.h>
 
-1745629431 c:\users\admin\desktop\game\mario\map.h
+1745641605 c:\users\admin\desktop\game\mario\map.h
 	"defs.h"
 	"TextureManage.h"
 	<bits/stdc++.h>
@@ -61,7 +62,7 @@
 	"ECS.h"
 	"Component.h"
 
-1745426880 c:\users\admin\desktop\game\mario\ecs.h
+1745693535 c:\users\admin\desktop\game\mario\ecs.h
 	<iostream>
 	<vector>
 	<memory>
@@ -87,7 +88,7 @@
 	<SDL.h>
 	"TextureManage.h"
 
-1745628307 c:\users\admin\desktop\game\mario\transformcomponent.h
+1745638995 c:\users\admin\desktop\game\mario\transformcomponent.h
 	"Component.h"
 	"Vector2D.h"
 	"defs.h"
@@ -96,26 +97,26 @@
 	<cmath>
 	<iostream>
 
-1745607760 c:\users\admin\desktop\game\mario\keyboardcontroller.h
+1745694792 c:\users\admin\desktop\game\mario\keyboardcontroller.h
 	<SDL.h>
 	"defs.h"
 	"Component.h"
 	"ECS.h"
 
-1745627643 c:\users\admin\desktop\game\mario\collidercomponent.h
+1745640967 c:\users\admin\desktop\game\mario\collidercomponent.h
 	<string>
 	"ECS.h"
 	"Component.h"
 	<SDL.h>
 
-1745351697 c:\users\admin\desktop\game\mario\collision.h
+1745640865 c:\users\admin\desktop\game\mario\collision.h
 	"defs.h"
 	"Map.h"
 	"ECS.h"
 	"Component.h"
 	<SDL.h>
 
-1745430792 c:\users\admin\desktop\game\mario\physicscomponent.h
+1745642515 c:\users\admin\desktop\game\mario\physicscomponent.h
 	"Component.h"
 	"ECS.h"
 

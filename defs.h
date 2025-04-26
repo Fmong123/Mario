@@ -26,6 +26,7 @@ enum GroupLabels : std::size_t {
     groupPlayers,
     groupEnemies,
     groupColliders,
+    groupCoins,
 };
 
 #endif // DEFS_H_INCLUDED

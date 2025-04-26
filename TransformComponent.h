@@ -53,16 +53,7 @@ public:
         position.x += velocity.x * speed ;
         position.y += velocity.y * speed ;
     }
-    void updateCamera(int& cameraX) {
-        // Cập nhật tốc độ cuộn camera theo velocity.x của Mario
-        cameraX += static_cast<int>(velocity.x);
 
-        // Tính lại giới hạn maxCameraX cho bản đồ
-        int maxCameraX = (MAP_WIDTH * TILE_SIZE * SCALE) - SCREEN_WIDTH;
-
-        // Đảm bảo camera không vượt qua giới hạn
-        cameraX = std::clamp(cameraX, 0, maxCameraX);
-    }
 
 };
 
