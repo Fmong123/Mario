@@ -22,7 +22,6 @@ public:
         SDL_RenderCopyEx(renderer, texture, &srcRect, &destRect, angle, center, flip);
     }
 
-    // Hàm Draw hiện tại có thể gọi hàm này với các giá trị mặc định
     static void Draw(SDL_Texture* texture, SDL_Renderer* renderer, SDL_Rect srcRect, SDL_Rect destRect)
     {
         Draw(texture, renderer, srcRect, destRect, 0.0, nullptr, SDL_FLIP_NONE);

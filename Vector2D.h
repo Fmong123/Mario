@@ -54,24 +54,22 @@ public:
         return *this;
     }
 
-
-    // Vector magnitude
     float magnitude() const {
         return std::sqrt(x * x + y * y);
     }
 
-    // Normalize vector (make unit vector)
+
     Vector2D normalize() const {
         float mag = magnitude();
         return (mag == 0.0f) ? Vector2D(0.0f, 0.0f) : Vector2D(x / mag, y / mag);
     }
 
-    // Dot product
+
     float dot(const Vector2D& v) const {
         return x * v.x + y * v.y;
     }
 
-    // Output stream (for debugging)
+
     friend std::ostream& operator<<(std::ostream& os, const Vector2D& v) {
         os << "(" << v.x << ", " << v.y << ")";
         return os;

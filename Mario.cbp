@@ -44,10 +44,16 @@
 		<Unit filename="ECS.h">
 			<Option target="&lt;{~None~}&gt;" />
 		</Unit>
+		<Unit filename="EnemyAIComponent.h">
+			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
 		<Unit filename="KeyboardController.h">
 			<Option target="&lt;{~None~}&gt;" />
 		</Unit>
 		<Unit filename="Map.h">
+			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
+		<Unit filename="MapBoundary.h">
 			<Option target="&lt;{~None~}&gt;" />
 		</Unit>
 		<Unit filename="PhysicsComponent.h">

@@ -263,7 +263,7 @@ public:
                     }
                 }
             }
-            //----------Move Enemies----------
+            //----------Enemies----------
             auto& enemies = manager.getGroup(groupEnemies);
             for (auto& enemyEntity : enemies) {
                 if (enemyEntity->hasComponent<TransformComponent>()) {
@@ -277,7 +277,6 @@ public:
                 }
             }
 
-            //----------Enemy - Player Collision----------
             if (Player != nullptr && Player->hasComponent<ColliderComponent>()) {
                 auto& playerCollider = Player->getComponent<ColliderComponent>();
                 for (auto& enemyEntity : enemies) {
@@ -288,7 +287,6 @@ public:
                             if (score < 0) {
                                 score = 0;
                             }
-                            // Tùy chọn: Thêm xử lý khác khi va chạm
                             enemyEntity->destroy();
                         }
                     }
@@ -419,8 +417,8 @@ private:
 
     TTF_Font* font = nullptr;
     int score = 0;
-    int countdownTime = 5; // seconds
-    int remainingTime = 5; // Tgian chạy game
+    int countdownTime = 60; // seconds
+    int remainingTime = 60; // Tgian chạy game
     bool gameOver = false;
 
     Uint32 startTime = 0;
@@ -435,10 +433,10 @@ private:
     SDL_Texture* restartButtonTexture = nullptr;
     SDL_Surface* restartButtonSurface = nullptr;
 
-    // Enemy spawning variables
+    // Thông số enemy
     Uint32 lastEnemySpawnTime;
-    Uint32 enemySpawnInterval = 1500; // Adjust the interval as needed (milliseconds)
-    int maxEnemies = 3; // Optional: Limit the number of enemies
+    Uint32 enemySpawnInterval = 1500; // Khoảng cách spawn
+    int maxEnemies = 3;
 };
 
 #endif // GRAPHIC_H_INCLUDED

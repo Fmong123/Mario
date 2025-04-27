@@ -24,13 +24,13 @@ public:
             // Kiểm tra nếu enemy ra ngoài màn hình và destroy **TRƯỚC KHI** di chuyển
             if (transform->position.x < -64 || transform->position.x > SCREEN_WIDTH + 64 || transform->position.y > SCREEN_HEIGHT + 64) {
                 entity->destroy();
-                return; // Thoát khỏi hàm update
+                return;
             }
 
             transform->position.x += moveSpeed * direction * transform->speed;
             if (direction < 0 && transform->position.x < -32) {
                 entity->destroy();
-                return; // Thoát khỏi hàm update
+                return;
             }
             if (transform->position.x < -32 && direction < 0) {
                 direction = 1.0f;
