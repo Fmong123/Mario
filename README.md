@@ -7,6 +7,9 @@
 <p align="center">
  <strong> Student ID </strong>: 24021595
 </p>
+<p align="center">
+ <strong> Video </strong>: https://drive.google.com/file/d/1SquLS0AIC6n9kEiUtMk53DHDOGrTTbAN/view?usp=sharing
+</p>
 
 - [A. Introduction](#A-introduction)
 - [B. Sources](#B-sources)
