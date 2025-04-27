@@ -78,7 +78,7 @@ public:
 
         //-------------Init Mario-------------
         Player = &manager.addEntity();
-        Player->addComponent<TransformComponent>(50, 450, 32,32,2);
+        Player->addComponent<TransformComponent>(550, 450, 32,32,2);
         Player->addComponent<ColliderComponent>("Player");
         Player->addComponent<PhysicsComponent>();
         Player->addComponent<SpriteComponent>("assets/mario.png",renderer);
@@ -417,8 +417,8 @@ private:
 
     TTF_Font* font = nullptr;
     int score = 0;
-    int countdownTime = 60; // seconds
-    int remainingTime = 60; // Tgian chạy game
+    int countdownTime = 120; // seconds
+    int remainingTime = 120; // Tgian chạy game
     bool gameOver = false;
 
     Uint32 startTime = 0;
