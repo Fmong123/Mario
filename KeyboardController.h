@@ -97,22 +97,7 @@ public:
 
 
 
-        /*if (jump && Transform->onGround) {
-            Transform->jump = true;
-        }*/
 
-
-        /*if (event.type == SDL_KEYUP && event.key.repeat == 0) {
-            switch (event.key.keysym.sym) {
-                case SDLK_a:
-                case SDLK_d:
-                    Transform->velocity.x = 0;
-                    break;
-            }
-
-            //if (Transform->velocity.x == 0)
-                //sprite->play("idle");
-        }*/
     }
 
 

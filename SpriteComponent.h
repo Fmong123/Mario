@@ -5,9 +5,14 @@
 #include <SDL.h>
 #include "TextureManage.h"
 
+enum class FacingDirection {
+    Left,
+    Right
+};
+
 class SpriteComponent : public Component {
 public:
-    int cameraX = 0;
+    FacingDirection facing = FacingDirection::Right;
     TransformComponent *Transform;
     SDL_Texture* texture;
     SDL_Rect srcRect;       // Rect nguồn trong sprite sheet (thường dùng để cắt hình ảnh từ sprite sheet)
@@ -40,18 +45,27 @@ public:
     }
 
     void update() override {
-        destRect.x = static_cast<int>(Transform->position.x) ;
+        Transform = &entity->getComponent<TransformComponent>();
+        destRect.x = static_cast<int>(Transform->position.x);
         destRect.y = static_cast<int>(Transform->position.y);
         destRect.w = Transform->width * Transform->scale;
         destRect.h = Transform->height * Transform->scale;
 
+        // Cập nhật hướng dựa trên vận tốc (ví dụ đơn giản)
+        if (Transform->velocity.x > 0) {
+            facing = FacingDirection::Right;
+        } else if (Transform->velocity.x < 0) {
+            facing = FacingDirection::Left;
+        }
     }
     void draw() override {
-        TextureManager::Draw(texture, ren, srcRect, destRect);
+        SDL_RendererFlip flip = SDL_FLIP_NONE;
+        if (facing == FacingDirection::Left) {
+            flip = SDL_FLIP_HORIZONTAL;
+        }
+        TextureManager::Draw(texture, ren, srcRect, destRect, 0.0, nullptr, flip);
     }
-    void setCameraX(int camX) {
-        cameraX = camX;
-    }
+
 };
 
 #endif // SPRITECOMPONENT_H_INCLUDED

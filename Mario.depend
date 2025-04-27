@@ -27,7 +27,7 @@
 
 1745641458 c:\users\admin\desktop\game\mario\defs.h
 
-1745695310 c:\users\admin\desktop\game\mario\graphic.h
+1745753231 c:\users\admin\desktop\game\mario\graphic.h
 	<SDL.h>
 	<SDL_image.h>
 	<SDL_mixer.h>
@@ -38,14 +38,18 @@
 	"TextureManage.h"
 	"Map.h"
 	"Vector2D.h"
+	<cstdlib>
+	<ctime>
 
 1743446906 c:\users\admin\desktop\game\mario\player.h
 	"graphic.h"
 	"defs.h"
 
-1744658316 c:\users\admin\desktop\game\mario\texturemanage.h
-	"graphic.h"
+1745748379 c:\users\admin\desktop\game\mario\texturemanage.h
+	<SDL.h>
+	<SDL_image.h>
 	"defs.h"
+	<SDL_log.h>
 
 1744051390 c:\users\admin\desktop\game\mario\background.h
 	<SDL.h>
@@ -62,7 +66,7 @@
 	"ECS.h"
 	"Component.h"
 
-1745693535 c:\users\admin\desktop\game\mario\ecs.h
+1745745691 c:\users\admin\desktop\game\mario\ecs.h
 	<iostream>
 	<vector>
 	<memory>
@@ -70,20 +74,22 @@
 	<bitset>
 	<array>
 
-1745597549 c:\users\admin\desktop\game\mario\component.h
+1745751938 c:\users\admin\desktop\game\mario\component.h
 	"graphic.h"
 	"ECS.h"
 	"TransformComponent.h"
 	"SpriteComponent.h"
 	"ColliderComponent.h"
 	"Collision.h"
-	"KeyboardController.h"
 	"PhysicsComponent.h"
+	"KeyboardController.h"
+	"EnemyAIComponent.h"
+	"MapBoundary.h"
 
 1744660376 c:\users\admin\desktop\game\mario\positioncomponent.h
 	"Component.h"
 
-1745601540 c:\users\admin\desktop\game\mario\spritecomponent.h
+1745748450 c:\users\admin\desktop\game\mario\spritecomponent.h
 	"Component.h"
 	<SDL.h>
 	"TextureManage.h"
@@ -97,13 +103,13 @@
 	<cmath>
 	<iostream>
 
-1745694792 c:\users\admin\desktop\game\mario\keyboardcontroller.h
+1745751112 c:\users\admin\desktop\game\mario\keyboardcontroller.h
 	<SDL.h>
 	"defs.h"
 	"Component.h"
 	"ECS.h"
 
-1745640967 c:\users\admin\desktop\game\mario\collidercomponent.h
+1745752960 c:\users\admin\desktop\game\mario\collidercomponent.h
 	<string>
 	"ECS.h"
 	"Component.h"
@@ -116,7 +122,19 @@
 	"Component.h"
 	<SDL.h>
 
-1745642515 c:\users\admin\desktop\game\mario\physicscomponent.h
+1745751938 c:\users\admin\desktop\game\mario\physicscomponent.h
 	"Component.h"
 	"ECS.h"
+
+1745752883 c:\users\admin\desktop\game\mario\enemyaicomponent.h
+	"Component.h"
+	"ECS.h"
+	"Component.h"
+	"ECS.h"
+	"defs.h"
+
+1745753079 c:\users\admin\desktop\game\mario\mapboundary.h
+	"Component.h"
+	"ECS.h"
+	"defs.h"
 

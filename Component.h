@@ -7,7 +7,9 @@
 #include "SpriteComponent.h"
 #include "ColliderComponent.h"
 #include "Collision.h"
-#include "KeyboardController.h"
 #include "PhysicsComponent.h"
+#include "KeyboardController.h"
+#include "EnemyAIComponent.h"
+#include "MapBoundary.h"
 
 #endif // COMPONENT_H_INCLUDED

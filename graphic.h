@@ -11,6 +11,8 @@
 #include "TextureManage.h"
 #include "Map.h"
 #include "Vector2D.h"
+#include <cstdlib>
+#include <ctime>
 
     SDL_Texture* playerModel;
     SDL_Rect srcR, destR;
@@ -58,7 +60,6 @@ public:
         renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED |
                                               SDL_RENDERER_PRESENTVSYNC);
 
-        //renderer = SDL_CreateSoftwareRenderer(SDL_GetWindowSurface(window));
 
         if (renderer == nullptr)
             logErrorAndExit("CreateRenderer", SDL_GetError());
@@ -79,9 +80,10 @@ public:
         Player = &manager.addEntity();
         Player->addComponent<TransformComponent>(50, 450, 32,32,2);
         Player->addComponent<ColliderComponent>("Player");
+        Player->addComponent<PhysicsComponent>();
         Player->addComponent<SpriteComponent>("assets/mario.png",renderer);
         Player->addComponent<KeyboardController>();
-        Player->addComponent<PhysicsComponent>();
+        Player->addComponent<MapBoundary>();
 
         Player->addGroup(groupPlayers);
         manager.addToGroup(Player, groupPlayers);
@@ -94,7 +96,11 @@ public:
             isRunning = false;
         }
 
+        //-------------Init Random Seed-------------
+        srand(time(nullptr));
+
         startTime = SDL_GetTicks();
+        lastEnemySpawnTime = SDL_GetTicks();
 
     }
     void handleEvent () {
@@ -107,10 +113,9 @@ public:
                 if (canRestart && event.button.button == SDL_BUTTON_LEFT) {
                     int mouseX = event.button.x;
                     int mouseY = event.button.y;
-                    // Kiểm tra xem chuột có click vào nút "Chơi lại" không
                     if (mouseX >= restartButtonRect.x && mouseX < restartButtonRect.x + restartButtonRect.w &&
                         mouseY >= restartButtonRect.y && mouseY < restartButtonRect.y + restartButtonRect.h) {
-                        resetGame(); // Gọi hàm reset game
+                        resetGame();
                     }
                 }
                 break;
@@ -193,8 +198,8 @@ public:
             if (Player != nullptr) {
                 Player->getComponent<KeyboardController>().update(event);
                 Player->getComponent<ColliderComponent>().update();
-                Player->getComponent<TransformComponent>().update();
                 Player->getComponent<PhysicsComponent>().update();
+                Player->getComponent<TransformComponent>().update();
             }
 
             //---------Coins-----------------
@@ -247,6 +252,48 @@ public:
                     lastCoinSpawnTime = currentTime;
                 }
             }
+            //----------Spawn Enemy----------
+            if (score >= 1000 || remainingTime < 100) {
+                Uint32 now = SDL_GetTicks();
+                if (now - lastEnemySpawnTime >= enemySpawnInterval) {
+                    auto& currentEnemies = manager.getGroup(groupEnemies);
+                    if (currentEnemies.size() < maxEnemies) { // Kiểm tra số lượng enemies hiện tại
+                        spawnEnemy(renderer, manager);
+                        lastEnemySpawnTime = now;
+                    }
+                }
+            }
+            //----------Move Enemies----------
+            auto& enemies = manager.getGroup(groupEnemies);
+            for (auto& enemyEntity : enemies) {
+                if (enemyEntity->hasComponent<TransformComponent>()) {
+                    auto& Transform = enemyEntity->getComponent<TransformComponent>();
+                    if (Transform.position.x < -32) {
+                        Transform.velocity.x = 1.0f; // Đặt vận tốc dương để di chuyển vào màn hình
+                    } else if (Transform.position.x > SCREEN_WIDTH + 32) {
+                        Transform.velocity.x = -1.0f; // Đặt vận tốc âm để di chuyển vào màn hình
+                    }
+                    enemyEntity->getComponent<TransformComponent>().update(); // Áp dụng vận tốc (đã được điều chỉnh nếu cần)
+                }
+            }
+
+            //----------Enemy - Player Collision----------
+            if (Player != nullptr && Player->hasComponent<ColliderComponent>()) {
+                auto& playerCollider = Player->getComponent<ColliderComponent>();
+                for (auto& enemyEntity : enemies) {
+                    if (enemyEntity->hasComponent<ColliderComponent>()) {
+                        auto& enemyCollider = enemyEntity->getComponent<ColliderComponent>();
+                        if (Collision::AABB(playerCollider.collider, enemyCollider.collider)) {
+                            score -= 200;
+                            if (score < 0) {
+                                score = 0;
+                            }
+                            // Tùy chọn: Thêm xử lý khác khi va chạm
+                            enemyEntity->destroy();
+                        }
+                    }
+                }
+            }
         }
 
         auto* pos = &Player->getComponent<TransformComponent>();
@@ -262,6 +309,23 @@ public:
         coin.addComponent<ColliderComponent>("Coin");
         coin.addComponent<PhysicsComponent>();
         coin.addGroup(groupCoins);
+    }
+
+    void spawnEnemy(SDL_Renderer* renderer, Manager& manager) {
+        auto& enemy = manager.addEntity();
+        int side = rand() % 2;
+        float x = (side == 0) ? -32.0f : static_cast<float>(SCREEN_WIDTH + 32);
+        float y = 450.0f;
+        enemy.addComponent<TransformComponent>(x, y, 28, 28, 2);
+        enemy.addComponent<SpriteComponent>("assets/img/npc_imgs/creature1.png", renderer);
+        enemy.addComponent<ColliderComponent>("Enemy");
+        enemy.addComponent<PhysicsComponent>(); // Thêm PhysicsComponent (cho trọng lực và va chạm Y)
+        float moveSpeed = 1.0f + static_cast<float>(rand()) / RAND_MAX * 0.5f;
+        enemy.addComponent<EnemyAIComponent>(moveSpeed); // Thêm EnemyAIComponent (cho di chuyển ngang)
+        if (side == 1) {
+            enemy.getComponent<EnemyAIComponent>().direction = -1.0f;
+        }
+        enemy.addGroup(groupEnemies);
     }
 
     void quit()
@@ -290,16 +354,19 @@ public:
         remainingTime = countdownTime;
         score = 0;
         startTime = SDL_GetTicks();
+        lastEnemySpawnTime = SDL_GetTicks();
 
         manager.clearAllEntities();
+        manager.refresh();
 
         // Khởi tạo lại Player ở vị trí ban đầu
         Player = &manager.addEntity();
         Player->addComponent<TransformComponent>(50, 450, 32,32,2);
         Player->addComponent<ColliderComponent>("Player");
         Player->addComponent<SpriteComponent>("assets/mario.png",renderer);
-        Player->addComponent<KeyboardController>();
         Player->addComponent<PhysicsComponent>();
+        Player->addComponent<KeyboardController>();
+        Player->addComponent<MapBoundary>();
 
         Player->addGroup(groupPlayers);
         manager.addToGroup(Player, groupPlayers);
@@ -352,8 +419,8 @@ private:
 
     TTF_Font* font = nullptr;
     int score = 0;
-    int countdownTime = 120; // seconds
-    int remainingTime = 120; // Tgian chạy game
+    int countdownTime = 5; // seconds
+    int remainingTime = 5; // Tgian chạy game
     bool gameOver = false;
 
     Uint32 startTime = 0;
@@ -367,8 +434,12 @@ private:
     SDL_Rect restartButtonRect; // Nút reset
     SDL_Texture* restartButtonTexture = nullptr;
     SDL_Surface* restartButtonSurface = nullptr;
+
+    // Enemy spawning variables
+    Uint32 lastEnemySpawnTime;
+    Uint32 enemySpawnInterval = 1500; // Adjust the interval as needed (milliseconds)
+    int maxEnemies = 3; // Optional: Limit the number of enemies
 };
 
 #endif // GRAPHIC_H_INCLUDED
-
 

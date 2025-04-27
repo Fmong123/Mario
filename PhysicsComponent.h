@@ -4,7 +4,7 @@
 #include "Component.h"
 #include "ECS.h"
 
-
+class KeyboardController;
 class PhysicsComponent : public Component {
 public:
 
@@ -14,10 +14,13 @@ public:
 
     bool isGrounded = false;
     bool jump = false;
-
+    bool isPlayer = false;
     void init() override {
         Transform = &entity->getComponent<TransformComponent>();
         collider = &entity->getComponent<ColliderComponent>();
+        if (entity->hasComponent<KeyboardController>()) { // Kiểm tra nếu có KeyboardController (chỉ Player)
+            isPlayer = true;
+        }
     }
 
     void update() override {
@@ -97,29 +100,7 @@ public:
             }
         }
 
-        // --- Giới hạn Mario trong map ---
-        int mapW = MAP_WIDTH * TILE_SIZE * SCALE;
-        int mapH = MAP_HEIGHT * TILE_SIZE * SCALE;
 
-        int screenW = SCREEN_WIDTH;
-
-        if (Transform->position.x < 0) {
-            Transform->position.x = 0;
-            Transform->velocity.x = 0;
-        }
-        if (Transform->position.x + colliderWidth > screenW) {
-            Transform->position.x = screenW - colliderWidth;
-            Transform->velocity.x = 0;
-        }
-
-        if (Transform->position.y < 0) {
-            Transform->position.y = 0;
-            Transform->velocity.y = 0;
-        }
-        if (Transform->position.y + colliderHeight > mapH) {
-            Transform->position.y = mapH - colliderHeight;
-            Transform->velocity.y = 0;
-        }
     }
     void setJump(bool value) {
         jump = value;
