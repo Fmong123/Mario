@@ -26,7 +26,11 @@ Ta điều khiển Mario bằng:
 
 Ta ăn nhiều xu để đạt số điểm cao nhất và khi thời gian càng ngày giảm thì quái bắt đầu xuất hiện
 
+![image](https://github.com/Fmong123/Mario/blob/main/anhmau1.jpg)
 
+Khi Timer = 0 thì Game kết thúc và bạn có thể thử lại để đạt số điểm cao hơn bằng cách ấn nút Reset
+
+![image2](https://github.com/Fmong123/Mario/blob/main/anhmau2.jpg)
 
 
 # B. Sources
