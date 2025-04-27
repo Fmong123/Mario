@@ -13,16 +13,20 @@
 - [C. Conclusion](#C-conclusion)
 
 # A. Introduction
-Đây là game được em viết trong khoảng **5 tuần** và cũng là game đầu tiên mà em viết. Game là 1 bản tái tạo lại màn 1-1 của bản gốc Super Mario Bros, hy vọng mọi người tận hưởng nó !!!
+Đây là game được em viết trong khoảng **5 tuần** và cũng là game đầu tiên mà em viết. Được truyền cảm hứng từ Super Mario Bros bản NES, em hy vọng mọi người tận hưởng nó !!!
 
-Các thư viện đi kèm: **bits**, **SDL2**, **SDL2-image**, và **SDL2-mixer**.
+Các thư viện đi kèm: **bits**, **SDL2**, **SDL2-image**, **SDL2-mixer** và **SDL2-ttf**.
 
-Game được tạo đơn giản hơn so với bản gốc, bằng việc ăn xu, giết quái và chạm đến cột cuối Map để hoàn thành trò chơi.
+Game được tạo đơn giản hơn so với bản gốc, bằng việc ăn xu, tránh quái trước khi thời gian kết thúc để đạt điểm cao nhất.
 
 Ta điều khiển Mario bằng:
   - A D để di chuyển
   - Space để nhảy
   - LShift để chạy nhanh hơn
+
+Ta ăn nhiều xu để đạt số điểm cao nhất và khi thời gian càng ngày giảm thì quái bắt đầu xuất hiện
+
+
 
 
 # B. Sources
